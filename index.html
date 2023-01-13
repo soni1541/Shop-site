@@ -6,53 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="requests_api.js"> </script>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script>
-        Promise.all([
-            fetch('https://fakestoreapi.com/products/categories'.then(value => value.json())),
-            fetch('https://fakestoreapi.com/products/'.then(value2 => value2.json()))
-            ])
-                .then(function (categories) {
-                    appendData(categories);
-                })
-                .then(function (data) {
-                    appendData(data);
-                })
-                .catch(function (err) {
-                    console.log('error: ' + err);
-                }),
-                function appendData(categories) {
-                    var select_container = document.getElementById('select');    
-                    for (var i = 0; i < categories.length; i++) {
-                        var option = document.createElement("option");
-                        option.innerHTML = categories[i];
-                        select_container.appendChild(option);
-                    }
-                }
-
-                function appendData(data) {
-                    var product_container = document.getElementById('products');        
-                    for (var i = 0; i < data.length; i++) {
-                        var div = document.createElement("div");
-                        div.className = "product";
-                        div.innerHTML =  '<div class="product-info">'+
-                                            '<h1>' + data[i].title + '</h1>' +
-                                            '<h2>' + data[i].category + '</h2>' +
-                                        '</div>' +
-                                        '<div class="img-container"><img src="' + data[i].image + '"></div>' +
-                                        '<div class="product-info">'+
-                                            '<span class="price">' + "$" + data[i].price + '</span>'+
-                                            '<span class="rate">' + data[i].rating.rate + '</span>' +
-                                            '<a href="" class="button">В корзину</a>' +
-                                        '</div>';
-                        product_container.appendChild(div);
-                }
-                }
-
-</script>
+    
 
     <div class="sorting">
         <label>Filter by:</label>
