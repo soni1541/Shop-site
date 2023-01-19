@@ -82,7 +82,8 @@ fetch('https://fakestoreapi.com/products/')
     .then(function (data) {
         //calc_count_pages();
         prod = data;
-        appendData(data);
+        f()
+        //appendData(data);
         calc_count_pages();
     })
     .then(appendPages)
