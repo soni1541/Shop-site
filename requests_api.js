@@ -112,6 +112,7 @@ function appendPages()
     pages_container.parentNode.removeChild(pages_container);
     var ul = document.createElement("ul");
     ul.id = 'pages_container';
+    console.log('appendPages = ' + count_ps);
     for(var i=0; i < count_ps; i++)
     {
         ul.innerHTML += '<li><a class = "q" id="' + (i).toString() +  '">' + (i+1).toString() + '</a></li>';
@@ -205,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function ()
         p = 0
 
         calc_count_pages()
+        appendPages()
 
         console.log(count_ps)
 
