@@ -2,6 +2,7 @@ var count_items_in_page = 10;
 
 var p = 0;
 var cat = 'All';
+var count_ps = 0;
 
 
 function appendData(data) {
@@ -79,8 +80,10 @@ var prod;
 fetch('https://fakestoreapi.com/products/')
     .then(response => response.json())
     .then(function (data) {
+        //calc_count_pages();
         prod = data;
         appendData(data);
+        calc_count_pages();
     })
     .then(appendPages)
     .catch(function (err) {
@@ -92,8 +95,10 @@ var cate;
 fetch('https://fakestoreapi.com/products/categories')
     .then(response => response.json())
     .then(function (categories) {
+        //calc_count_pages();
         cate = categories;
         appendCat(categories);
+        calc_count_pages();
     })
     .catch(function (err) {
         console.log('error: ' + err);
@@ -101,13 +106,16 @@ fetch('https://fakestoreapi.com/products/categories')
 
 function appendPages()
 {
-    //console.log('9909')
-    //console.log(prod);
-    var count_pages = Math.ceil(prod.length / 10);
-    var pages_container = document.getElementById('pages_container');  
-    for(var i=0; i < count_pages; i++)
+    //var count_pages = Math.ceil(prod.length / 10);
+    var pages = document.getElementById('pages');  
+    var pages_container = document.getElementById('pages_container');
+    pages_container.parentNode.removeChild(pages_container);
+    var ul = document.createElement("ul");
+    ul.id = 'pages_container';
+    for(var i=0; i < count_ps; i++)
     {
-        pages_container.innerHTML += '<li><a class = "q" id="' + (i).toString() +  '">' + (i+1).toString() + '</a></li>';
+        ul.innerHTML += '<li><a class = "q" id="' + (i).toString() +  '">' + (i+1).toString() + '</a></li>';
+        pages.appendChild(ul);
     }
 }
 
@@ -140,22 +148,51 @@ function f ()
     var start = p * count_items_in_page;
     var finish = start + count_items_in_page;
 
-    for(var i = start; i < finish; i++)
+    var i_p = 0;
+    for(var i = 0; i < prod.length; i++)
     {
         if(cat == 'All')
         {
-            append_item(prod[i], products_container);
+            if(i_p >= start && i_p < finish)
+            {
+                append_item(prod[i], products_container);
+            }
+            i_p++;
         }
         else
         {
             var cate_now = prod[i].category;
-
             if(cate_now == cat)
             {
-                append_item(prod[i], products_container);
+                if(i_p >= start && i_p < finish)
+                {
+                    append_item(prod[i], products_container);
+                }
+                i_p++;
             }
         }
     }
+}
+
+function calc_count_pages()
+{
+    if(cat == 'All')
+    {
+        count_ps = prod.length;
+    }
+    else
+    {
+        count_ps = 0;
+        for(var i = 0; i < prod.length; i++)
+        {
+            var cate_now = prod[i].category;
+            if(cate_now == cat)
+            {
+                count_ps++;
+            }
+        }
+    }
+    count_ps = Math.ceil(count_ps / count_items_in_page);
 }
 
 document.addEventListener('DOMContentLoaded', function ()
@@ -165,21 +202,14 @@ document.addEventListener('DOMContentLoaded', function ()
     el.onchange = function ()
     {
         cat = el.value
+        p = 0
+
+        calc_count_pages()
+
+        console.log(count_ps)
+
         f()
     }
-
-    
-
-    // $(document).on('click', '[data-toggle="modal"]', function () {
-    //     var target = $(this).attr('data-target');
-    //     $(target).display = 'block';
-    //     return false;
-    //   });
-
-    // $('.product').on('click', function() {
-    //     console.log('777')
-    //     document.getElementById('#modal-container').style.display = 'block';
-    // });
     
 });
 
