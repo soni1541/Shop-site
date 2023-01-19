@@ -1,4 +1,5 @@
 body {
+    position: relative;
     margin: 100px;
     font-family: 'Montserrat', sans-serif;
 }
@@ -9,6 +10,41 @@ label {
 select {
     font-size: 14px;
     font-weight: 300;
+}
+a {
+    text-decoration: none;
+    color:black;
+}
+li {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+ul {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    flex: 1 16%;
+}
+
+#modal-container {
+    position: absolute;
+    display: none;
+    box-shadow: 0px 0px 0px 9999px rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    margin: 15%;
+}
+.modal {
+    width: 900px;
+    position: absolute;
+    justify-content:center;
+    z-index: 100;
+    background: #FFFFFF;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 2px;
+}
+p {
+    max-width: 500px;
 }
 #products {
     display: flex;
@@ -43,10 +79,25 @@ select {
 .rate {
     font-weight: 400;
 }
+.product-middle {
+    display: flex;
+    flex-direction: row;
+    margin: 15px;
+    flex: 1 21%;
+    justify-content: space-around;
+}
 .product-info {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 15px;
+    flex: 1 21%;
+    justify-content: space-around;
+}
+.modal .product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     margin: 15px;
     flex: 1 21%;
     justify-content: space-around;
