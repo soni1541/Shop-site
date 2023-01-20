@@ -23,24 +23,24 @@ function appendData(data) {
         product_container.appendChild(div);
     }
 
-    var modal_container = document.getElementById('modal-container'); 
-    var modal = document.createElement("div");
-    modal.className ="modal";
-    modal.innerHTML = '<div class="product-info">'+
-                            '<h1>' + data[0].title + '</h1>' +
-                            '<h2>' + data[0].category + '</h2>' +
-                        '</div>' +
-                        '<div class="product-middle">'+
-                            '<div class="img-container"><img src="' + data[0].image + '"></div>' +
-                            '<p>' + data[0].description + '</p>' +
-                        '</div>'+
-                        '<div class="product-info">'+
-                            '<span class="price">' + "$" + data[0].price + '</span>'+
-                            '<span class="rate">' + data[0].rating.rate + '</span>' +
-                            '<span class="rate">' + data[0].rating.count + '</span>' +
-                            '<a href="" class="button">В корзину</a>' +
-                        '</div>';
-    modal_container.appendChild(modal);
+    // var modal_container = document.getElementById('modal-container'); 
+    // var modal = document.createElement("div");
+    // modal.className ="modal";
+    // modal.innerHTML = '<div class="product-info">'+
+    //                         '<h1>' + data[0].title + '</h1>' +
+    //                         '<h2>' + data[0].category + '</h2>' +
+    //                     '</div>' +
+    //                     '<div class="product-middle">'+
+    //                         '<div class="img-container"><img src="' + data[0].image + '"></div>' +
+    //                         '<p>' + data[0].description + '</p>' +
+    //                     '</div>'+
+    //                     '<div class="product-info">'+
+    //                         '<span class="price">' + "$" + data[0].price + '</span>'+
+    //                         '<span class="rate">' + data[0].rating.rate + '</span>' +
+    //                         '<span class="rate">' + data[0].rating.count + '</span>' +
+    //                         '<a href="" class="button">В корзину</a>' +
+    //                     '</div>';
+    // modal_container.appendChild(modal);
 }
 
 function append_item (item, cont)
@@ -48,7 +48,7 @@ function append_item (item, cont)
     var div = document.createElement("div");
     div.className = "product";
     div.id = item.id;
-    div.innerHTML = 
+    div.innerHTML = '<button id ="'+ div.id + '" class="enter-modal">' +
                         '<div class="product-info">'+
                             '<h1>' + item.title + '</h1>' +
                             '<h2>' + item.category + '</h2>' +
@@ -58,7 +58,8 @@ function append_item (item, cont)
                             '<span class="price">' + "$" + item.price + '</span>'+
                             '<span class="rate">' + item.rating.rate + '</span>' +
                             '<a href="" class="button">В корзину</a>' +
-                        '</div>';
+                        '</div>'+
+                       ' </button>';
     cont.appendChild(div);
 }
 
@@ -126,11 +127,51 @@ function itemsOutput(){
     f()
 }
 
-$(document).on("click", "a", itemsOutput);
+function appendModal(id) {
+    var modal_container = document.getElementById('modal-container'); 
+    
+    var modal = document.createElement("div");
+    modal.className ="modal";
+    modal.id = "modal";
+    modal.innerHTML = '<div class="product-info">'+
+                            '<h1>' + prod[id].title + '</h1>' +
+                            '<h2>' + prod[id].category + '</h2>' +
+                        '</div>' +
+                        '<div class="product-middle">'+
+                            '<div class="img-container"><img src="' + prod[id].image + '"></div>' +
+                            '<p>' + prod[id].description + '</p>' +
+                        '</div>'+
+                        '<div class="product-info">'+
+                            '<span class="price">' + "$" + prod[id].price + '</span>'+
+                            '<span class="rate">' + prod[id].rating.rate + '</span>' +
+                            '<span class="rate">' + prod[id].rating.count + '</span>' +
+                            '<a href="" class="button">В корзину</a>' +
+                        '</div>';
+    modal_container.appendChild(modal);
+}
 
+$(document).on("click", "a", itemsOutput);
 $(document).ready(function(){
     $("a").trigger("click");
 });
+$(document).on("click", "button", function(){
+    appendModal(this.id - 1);
+    var modal_product = document.getElementById("modal-container");
+    modal_product.style.display = 'block';
+});
+$(document).ready(function(){
+    $("button").trigger("click");
+});
+
+$(document).mouseup(function (e) {
+    var container = $('modal');
+    if (container.has(e.target).length === 0){
+        document.getElementById("modal-container").style.display = "none";
+        var modal_old = document.getElementById('modal');
+        modal_old.parentNode.removeChild(modal_old);
+    }
+    });
+
 
 function f ()
 {
